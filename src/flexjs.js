@@ -84,39 +84,49 @@ $.fn.extend({
 
 			// svg prop
 			_com.transform = function(para) {
-				var _SPLIT = "_FLEX_JS_SPLIT_";
-				var trans_lst = new Object();
-				var _trans = _com.attr("transform");
-				if(_trans != null) {
-					_trans = _trans.trim().replace(new RegExp("\\) +", "g"), ")" + _SPLIT);
-					_trans = _trans.trim().replace(new RegExp(_SPLIT + "$", "g"), "");
-					var _lst = _trans.split(_SPLIT);
-					for(var i in _lst) {
-						var _str = _lst[i];
-						var _key = _str.replace(new RegExp("(.*)\\(.*\\)", "g"), "$1");
-						var _value = _str.replace(new RegExp(".*\\((.*)\\)", "g"), "$1");
-						trans_lst[_key] = _value;
-					}
-				}
-				trans_lst.renderAttr = function() {
-					var str = "";
-					for(var i in trans_lst) {
-						var _value = trans_lst[i];
-						if(typeof(_value) != 'function') {
-							str += i + "(" + _value + ") ";
+				if(para == null) {
+					var _SPLIT = "_FLEX_JS_SPLIT_";
+					var trans_lst = new Object();
+					var _trans = _com.attr("transform");
+					if(_trans != null) {
+						_trans = _trans.trim().replace(new RegExp("\\) +", "g"), ")" + _SPLIT);
+						_trans = _trans.trim().replace(new RegExp(_SPLIT + "$", "g"), "");
+						var _lst = _trans.split(_SPLIT);
+						for(var i in _lst) {
+							var _str = _lst[i];
+							var _key = _str.replace(new RegExp("(.*)\\(.*\\)", "g"), "$1");
+							var _values = _str.replace(new RegExp(".*\\((.*)\\)", "g"), "$1").split(",");
+							var _value = new Array();
+							for(var j in _values) {
+								_value.push(parseInt(_values[j]));
+							}
+							trans_lst[_key] = _value;
 						}
 					}
-					return str;
+					return trans_lst;
+				} else if(typeof(para) == 'object') {
+					var str = "";
+					for(var i in para) {
+						var _value = para[i];
+						if(typeof(_value) != 'function') {
+							if(typeof(_value) == 'string') {
+								str += i + "(" + _value + ") ";
+							} else if(typeof(_value) == 'array') {
+								str += i + "(" + _value.join(",") + ") ";
+							}
+						}
+					}
+					_com.attr("transform", str);
+				} else if(typeof(para) == 'string') {
+					_com.attr("transform", para);
 				}
-				return trans_lst;
-			}
+			};
+
 			_com.addTransform = function(_key, _value) {
-				var _trans = _com.transform();
-				_trans[_key] = _value;
-				var _value = _trans.renderAttr();
-				_com.attr("transform", _value);
-				return _value;
-			}
+				var _para = _com.transform();
+				_para[_key] = _value;
+				_com.transform(_para);
+			};
 
 			return _com;
 		}

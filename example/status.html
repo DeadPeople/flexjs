@@ -59,7 +59,7 @@ svg line {
 					var unit = units[i];
 					unit.addTransform("translate", (i * 150) + ", 0");
 
-					if(_pre != null) {
+					/*if(_pre != null) {
 						//console.log(_pre);
 						var xmlns = "http://www.w3.org/2000/svg";
 						var elem = document.createElementNS(xmlns, "line");
@@ -70,7 +70,7 @@ svg line {
 						$line.attr("x2", 200);
 						$line.attr("y2", 50);
 						$("#target_svg #target_svg_lines").append($line);
-					}
+					}*/
 					_pre = unit;
 				}
 			});
