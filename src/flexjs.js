@@ -1,18 +1,23 @@
 /***
-		para:	 _init		Default: true. It will auto init _data object when true; 
+		args:
+			init		boolean		default is true. It will auto init _data object when true;.
+			object		object		default is null. Init component with given object.
+			objects		array		default is null. It will return svg array which are inited if is not null.
 ***/
 $.fn.extend({
 	flexsvg:function(options){
 		var _INLINE_BIND_FORMAT = "data-bind-target";
 
 		var _my = $(this);
-		_my.getInstance = function(_init) {
+		_my.getInstance = function(args) {
 			var _com = _my.clone();
 			var _data = new Object();
 
 			// init data object 
-			if(_init == null) _init = true;
-			if(_init == true) {
+			if(args == null) args = new Object();
+
+			if(args.init == null) args.init = true;
+			if(args.init == true) {
 				var _inline_bind = "[" + _INLINE_BIND_FORMAT + "]";
 				_com.find(_inline_bind).each(function(){
 					var _key = $(this).attr(_INLINE_BIND_FORMAT);
@@ -21,8 +26,25 @@ $.fn.extend({
 				});
 			}
 
+			if(args.object != null) _data = args.object;
+
+			if(args.objects != null) {
+				var _svg_lst = new Array();
+				var _args = jQuery.extend({}, args);
+				_args.objects = null;
+
+				for(var i in args.objects) {
+					var _object = args.objects[i];
+					_args.object = _object;
+					var _svg = _my.getInstance(_args);
+					_svg_lst.push(_svg);
+				}
+				return _svg_lst;
+			}
+
 			// Update svg with given object
 			_com.updateSVG = function() {
+				// set data into target svg text field
 				for(var i in _data) {
 					if(typeof(options) != 'function') {
 						var _key = i;
@@ -31,8 +53,14 @@ $.fn.extend({
 						_com.find(_inline_bind).text(_value);
 					}
 				}
+				// call the function if it has update function
+				var _callback = args.update;
+				if(_callback != null && typeof(_callback) == 'function') {
+					_callback.call(_com, _data);
+				}
 				return _com;
 			}
+			_com.updateSVG();
 
 			// set bind object
 			_com.object = function(obj) {
@@ -46,8 +74,7 @@ $.fn.extend({
 			// Set the attr of component
 			_com.set = function(key, value) {
 				_data[key] = value;
-				var _inline_bind = "[" + _INLINE_BIND_FORMAT + "='" + key + "']";
-				_com.find(_inline_bind).text(value);
+				_com.updateSVG();
 				return value;
 			}
 			// Get the attr of component
@@ -56,7 +83,7 @@ $.fn.extend({
 			}
 
 			// svg prop
-			function getTans() {
+			_com.transform = function(para) {
 				var _SPLIT = "_FLEX_JS_SPLIT_";
 				var trans_lst = new Object();
 				var _trans = _com.attr("transform");
@@ -83,10 +110,12 @@ $.fn.extend({
 				}
 				return trans_lst;
 			}
-			_com.transform = function(_key, _value) {
-				var _trans = getTans();
+			_com.addTransform = function(_key, _value) {
+				var _trans = _com.transform();
 				_trans[_key] = _value;
-				_com.attr("transform", _trans.renderAttr());
+				var _value = _trans.renderAttr();
+				_com.attr("transform", _value);
+				return _value;
 			}
 
 			return _com;

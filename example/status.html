@@ -24,38 +24,61 @@ svg circle {
 svg .pass circle {
 	fill: green;
 }
+
+svg line {
+	stroke:rgba(99,99,99, 0.3);
+	stroke-width:12;
+}
 </style>
 
 		<script>
 			$(document).ready(function(){
 				tmpl_unit = $("#tmpl_svg [data-tmpl='demo']").flexsvg();
 
-				unit = tmpl_unit.getInstance();
-				unit.set("name", "Identified");
-				unit.attr("class", "pass");
-				$("#target_svg").append(unit);
+				objs = [
+					{name: "Identified", pass: true},
+					{name: "In Process", pass: true},
+					{name: "Released"},
+					{name: "Done"},
+				];
 
-				unit = tmpl_unit.getInstance();
-				unit.set("name", "In Process");
-				unit.attr("class", "pass");
-				unit.transform("translate", "150, 0");
-				$("#target_svg").append(unit);
+				units = tmpl_unit.getInstance({
+					objects: objs,
+					update: function(data) {
+						if(data.pass == true) {
+							$(this).attr("class", "pass");
+						} else {
+							$(this).removeAttr("class");
+						}
+					}
+				});
+				$("#target_svg").append(units);
 
-				unit = tmpl_unit.getInstance();
-				unit.set("name", "Released");
-				unit.transform("translate", "300, 0");
-				$("#target_svg").append(unit);
+				var _pre = null;
+				for(var i in units) {
+					var unit = units[i];
+					unit.addTransform("translate", (i * 150) + ", 0");
 
-				unit = tmpl_unit.getInstance();
-				unit.set("name", "Done");
-				unit.transform("translate", "450, 0");
-				$("#target_svg").append(unit);
+					if(_pre != null) {
+						//console.log(_pre);
+						var xmlns = "http://www.w3.org/2000/svg";
+						var elem = document.createElementNS(xmlns, "line");
+						
+						var $line = $(elem);
+						$line.attr("x1", 50);
+						$line.attr("y1", 50);
+						$line.attr("x2", 200);
+						$line.attr("y2", 50);
+						$("#target_svg #target_svg_lines").append($line);
+					}
+					_pre = unit;
+				}
 			});
 		</script>
 	</head>
 	<body>
 		<svg id="tmpl_svg" height="200" version="1.1" xmlns="http://www.w3.org/2000/svg">
-			<g data-tmpl="demo" y="50">
+			<g data-tmpl="demo">
 				<circle cx="50" cy="50" r="10" />
 				<text data-bind-target="name" x="50" y="30" text-anchor="middle"
 				font-size="20">OMG</text>
@@ -63,6 +86,8 @@ svg .pass circle {
 		</svg>
 
 		<svg id="target_svg" width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">
+			<g id="target_svg_lines">
+			</g>
 		</svg>
 	</body>
 </html>
