@@ -14,15 +14,7 @@
 
 				unit = tmpl_unit.getInstance();
 				$("#target_svg").append(unit);
-				unit.set("txt_abc", "Hello World");
-
-				unit2 = tmpl_unit.getInstance();
-				unit2.addTransform("translate", [400, 0]);
-				unit2.addTransform("scale", "2");
-				$("#target_svg").append(unit2);
-				o = new Object();
-				o.txt_abc = "FlexJS";
-				unit2.object(o);
+				unit.set("des", "Hello World");
 			});
 		</script>
 	</head>
@@ -30,7 +22,8 @@
 		<svg id="tmpl_svg" height="200" style="display:none;" version="1.1" xmlns="http://www.w3.org/2000/svg">
 			<g data-tmpl="demo" y="50">
 				<rect width="300" height="50" fill="#999" />
-				<text data-bind-target="txt_abc" x="10" y="30" font-size="20" font-family="tempus sans itc" stroke="white" stroke-width="2">OMG</text>
+				<text data-bind-target="des" data-bind-editable
+				x="10" y="30" font-size="20" font-family="tempus sans itc" stroke="white" stroke-width="2">OMG</text>
 			</g>
 		</svg>
 

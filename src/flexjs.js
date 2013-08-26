@@ -42,6 +42,10 @@ $.fn.extend({
 				return _svg_lst;
 			}
 
+			// create instance & init attr
+			_com.data("flexjs", _com);
+			_com.attr("data-flexjs-object", "");
+
 			// Update svg with given object
 			_com.updateSVG = function() {
 				// set data into target svg text field
@@ -111,7 +115,7 @@ $.fn.extend({
 						if(typeof(_value) != 'function') {
 							if(typeof(_value) == 'string') {
 								str += i + "(" + _value + ") ";
-							} else if(typeof(_value) == 'array') {
+							} else if($.isArray(_value)) {
 								str += i + "(" + _value.join(",") + ") ";
 							}
 						}
@@ -134,7 +138,44 @@ $.fn.extend({
 	}
 });
 
-/*!function ($) {
-	$(document).on("mousedown.bootstrapcomponent.slider", "button[data-toggle='slider']", function(event){
+!function ($) {
+	var $input = null;
+	var $text = null;
+	var _rm = true;
+	$(document).on("click.flexjs.svg.text.editable", "[data-flexjs-object] text[data-bind-editable]", function(event){
+		if($input != null) {
+			$input.remove();
+			$input = null;
+		}
+
+		var _my = $(this);
+		$text = _my;
+		$input = $("<input type='text'>");
+		$("body").append($input);
+		$input.css("position", "absolute");
+		$input.offset(_my.offset());
+		$input.css("font-size",_my.css("font-size"));
+		$input.val(_my.text());
+		$input.click(function(event){
+			_rm = false;
+		});
+		_rm = false;
 	});
-}(window.jQuery);*/
+
+	$(document).on("click.flexjs.svg.text.editable.blur", function(event){
+		if(_rm) {
+			if($input != null) {
+				var $unit = $text.closest("[data-flexjs-object]");
+				var unit = $unit.data("flexjs");
+				var _value = $input.val();
+				var _key = $text.attr("data-bind-target");
+				unit.set(_key, _value);
+
+				$input.remove();
+				$input = null;
+			}
+		} else {
+			_rm = true;
+		}
+	});
+}(window.jQuery);
