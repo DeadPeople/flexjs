@@ -3,12 +3,29 @@
 			init		boolean		default is true. It will auto init _data object when true;.
 			object		object		default is null. Init component with given object.
 			objects		array		default is null. It will return svg array which are inited if is not null.
+			update		function	you can update your element if any changes happen. Use $(this) to call the element.
 ***/
 $.fn.extend({
 	flexsvg:function(options){
 		var _INLINE_BIND_FORMAT = "data-bind-target";
 
 		var _my = $(this);
+		
+		var _events = new Array();
+
+		_my.on = function(event, target, func) {
+			var _event = new Object();
+			_event.event = event;
+			if(typeof(target) == "string") {
+				_event.target = target;
+				_event.func = func;
+			} else {
+				_event.func = target;
+			}
+			_events.push(_event);
+			return _my;
+		}
+
 		_my.getInstance = function(args) {
 			var _com = _my.clone();
 			var _data = new Object();
@@ -113,7 +130,7 @@ $.fn.extend({
 					for(var i in para) {
 						var _value = para[i];
 						if(typeof(_value) != 'function') {
-							if(typeof(_value) == 'string') {
+							if(typeof(_value) == 'string' || typeof(_value) == 'number') {
 								str += i + "(" + _value + ") ";
 							} else if($.isArray(_value)) {
 								str += i + "(" + _value.join(",") + ") ";
@@ -126,11 +143,33 @@ $.fn.extend({
 				}
 			};
 
+			// add transform
 			_com.addTransform = function(_key, _value) {
 				var _para = _com.transform();
 				_para[_key] = _value;
 				_com.transform(_para);
 			};
+
+			// remove transform
+			_com.removeTransform = function(_key) {
+				var _para = _com.transform();
+				_para[_key] = null;
+				_com.transform(_para);
+			}
+
+			// add event listener
+			for(var i in _events) {
+				var _event = _events[i];
+				if(_event.target == null) {
+					_com.on(_event.event, function(event){
+						_event.func.call($(this), event, _com);
+					});
+				} else {
+					_com.on(_event.event, _event.target, function(event){
+						_event.func.call($(this), event, _com);
+					});
+				}
+			}
 
 			return _com;
 		}
@@ -144,25 +183,25 @@ $.fn.extend({
 	var _rm = true;
 	$(document).on("click.flexjs.svg.text.editable", "[data-flexjs-object] text[data-bind-editable]", function(event){
 		if($input != null) {
-			$input.remove();
-			$input = null;
+			updateInput();
 		}
 
 		var _my = $(this);
 		$text = _my;
-		$input = $("<input type='text'>");
+		$input = $("<input type='text' data-flexjs-input>");
 		$("body").append($input);
 		$input.css("position", "absolute");
 		$input.offset(_my.offset());
 		$input.css("font-size",_my.css("font-size"));
 		$input.val(_my.text());
+		$input.select();
 		$input.click(function(event){
 			_rm = false;
 		});
 		_rm = false;
 	});
 
-	$(document).on("click.flexjs.svg.text.editable.blur", function(event){
+	function updateInput() {
 		if(_rm) {
 			if($input != null) {
 				var $unit = $text.closest("[data-flexjs-object]");
@@ -177,5 +216,8 @@ $.fn.extend({
 		} else {
 			_rm = true;
 		}
+	}
+	$(document).on("click.flexjs.svg.text.editable.blur", function(event){
+		updateInput();
 	});
 }(window.jQuery);

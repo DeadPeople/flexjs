@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>FlexJS Sample</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!-- jQuery -->
+		<script src="assets/jquery.js"></script>
+		<!-- flexjs -->
+		<script src="../src/flexjs.js"></script>
+
+		<script>
+			$(document).ready(function(){
+				objs = [];
+				tmpl_unit = $("#tmpl_svg [data-tmpl='demo']").flexsvg();
+				tmpl_unit.on("click", "text[data-mindmap-add]", function(event, unit){
+					var u = tmpl_unit.getInstance();
+					u.parent = unit;
+					u.parent.children.push(u);
+					u.children = [];
+					u.lvl = unit.lvl + 1;
+					u.addTransform("translate", [u.lvl * 300, (u.parent.children.length - 1) * 100]);
+					objs.push(u);
+					$("#target_svg").append(u);
+				});
+
+				unit = tmpl_unit.getInstance();
+				unit.lvl = 0;
+				unit.children = [];
+				objs.push(unit);
+				$("#target_svg").append(unit);
+			});
+		</script>
+
+<style>
+svg text.add {
+	fill: gray;
+	font-weight: bolder;
+	cursor: pointer;
+}
+</style>
+	</head>
+	<body>
+		<svg id="tmpl_svg" height="300" style="display:none;" version="1.1" xmlns="http://www.w3.org/2000/svg">
+			<g data-tmpl="demo" y="50">
+				<rect width="250" height="50" fill="#EEE" />
+				<text data-bind-target="txt_abc" x="10" y="30" data-bind-editable
+				font-size="20" font-family="black" fill="black">OMG</text>
+				<text class="add" x="230" y="30" data-mindmap-add>+</text>
+			</g>
+		</svg>
+
+		<svg id="target_svg" width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">
+		</svg>
+	</body>
+</html>
