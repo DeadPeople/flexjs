@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>FlexJS Sample</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!-- jQuery -->
+		<script src="assets/jquery.js"></script>
+		<!-- flexjs -->
+		<script src="../src/flexjs.js"></script>
+
+		<script>
+			$(document).ready(function(){
+				objs = [];
+				tmpl_unit = $("#tmpl_svg [data-tmpl='demo']").flexsvg();
+				tmpl_unit.on("click", "text[data-mindmap-add]", function(event, _unit){
+					var u = tmpl_unit.getInstance();
+					u._parent = _unit;
+					u._parent.children.push(u);
+					initUnit(u);
+					objs.push(u);
+					$("#target_svg").append(u);
+
+					unit.update();
+				});
+
+				unit = tmpl_unit.getInstance();
+				unit._parent = null;
+				initUnit(unit);
+				objs.push(unit);
+				$("#target_svg").append(unit);
+
+				function initUnit(u) {
+					u.children = [];
+					u._height = function() {
+						var ret = 1;
+						if(u.children.length != 0) {
+							var _h = 0;
+							for(var i in u.children) {
+								_h += u.children[i]._height();
+							}
+							ret = _h;
+						}
+						if(u._prev() != null) {
+							ret += u._prev()._height();
+						}
+						return ret;
+					}
+
+					u._depth = function() {
+						if(u._parent == null) return 0;
+						return u._parent._depth() + 1;
+					}
+
+					u._prev = function() {
+						if(u._parent == null) return null;
+						var _pos;
+						for(_pos = 0 ; _pos < u._parent.children.length ; _pos++) {
+							if(u._parent.children[_pos] == u) break; 
+						}
+						if(_pos == 0) return null;
+						return u._parent.children[_pos - 1];
+					}
+
+					u._next = function() {
+						if(u._parent == null) return null;
+						var _pos;
+						for(_pos = 0 ; _pos < u._parent.children.length ; _pos++) {
+							if(u._parent.children[_pos] == u) break; 
+						}
+						if(_pos == u._parent.children.length) return null;
+						return u._parent.children[_pos + 1];
+					}
+
+					u.update = function() {
+						var _h = u._height() - u.children.length - 1;
+						if(_h < 0) _h = 0;
+						u.addTransform("translate", [u._depth() * 300, _h * 100]);
+						for(var i in u.children) {
+							u.children[i].update();
+						}
+					}
+				}
+			});
+		</script>
+
+<style>
+svg text.add {
+	fill: gray;
+	font-weight: bolder;
+	cursor: pointer;
+}
+</style>
+	</head>
+	<body>
+		<svg id="tmpl_svg" height="300" style="display:none;" version="1.1" xmlns="http://www.w3.org/2000/svg">
+			<g data-tmpl="demo" y="50">
+				<rect width="250" height="50" fill="#EEE" />
+				<text data-bind-target="txt_abc" x="10" y="30" data-bind-editable
+				font-size="20" font-family="black" fill="black">Your Mind</text>
+				<text class="add" x="230" y="30" data-mindmap-add>+</text>
+			</g>
+		</svg>
+
+		<svg id="target_svg" width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">
+		</svg>
+	</body>
+</html>
