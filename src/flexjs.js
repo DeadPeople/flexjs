@@ -186,11 +186,14 @@ $.fn.extend({
 		$input = $("<input type='text' data-flexjs-input>");
 		$("body").append($input);
 		$input.css("position", "absolute");
-		$input.offset(_my.offset());
 		$input.css("font-size",_my.css("font-size"));
+		$input.css("font-family",_my.css("font-family"));
 		$input.val(_my.text());
+		var _my_offset = _my.offset();
+		_my_offset.top = _my_offset.top - ($input.outerHeight() - _my.outerHeight()) / 2;
+		$input.offset(_my_offset);
 		$input.select();
-		
+
 		$input.keyup(function(event) {
 			if(event.which == 13) {
 				updateInput();

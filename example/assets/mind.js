@@ -33,25 +33,36 @@ $(document).ready(function(){
 		// Enter any new nodes at the parent's previous position.
 		var nodeEnter = node.enter().append("svg:g")
 			.attr("class", "node")
-			.attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
-			//.on("click", function(d) { toggle(d); update(d); });
+			.attr("transform", function(d) {
+				return "translate(" + source.y0 + "," + source.x0 + ")"; 
+			});
 
 		tmpl_unit = $("#tmpl_svg [data-tmpl='demo']").flexsvg();
 
-		nodeEnter.append(function(p){
+		var nodeEnter = nodeEnter.append(function(p){
 			var element = tmpl_unit.getInstance();
 			element.object(p);
 			return element[0];
 		})
-		.attr("opacity", 0)
-		.select("text.add")
+		.attr("opacity", 0);
+
+		nodeEnter.select("circle")
+		.on("click", function(d) { toggle(d); update(d); });
+
+		nodeEnter.select("text.add")
 		.on("click", function(d) {
 			var _node = new Object();
 			_node.name = "new node";
 			_node.children = [];
+			_node.parent = d;
+			_node.x = d.x;
+			_node.y = d.y;
+			_node.x0 = d.x;
+			_node.y0 = d.y;
+
 			d.children.push(_node);
 
-			update(root);
+			update(d);
 		});
 
 
@@ -62,8 +73,9 @@ $(document).ready(function(){
 			.attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
 
 		nodeUpdate.select("g")
-			.attr("opacity", 1);
-			//.style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+			.attr("opacity", 1)
+			.select("circle")
+			.style("fill", function(d) { return d._children ? "#999" : "#fff"; });
 
 
 		// Transition exiting nodes to the parent's new position.
@@ -83,11 +95,8 @@ $(document).ready(function(){
 		// Enter any new links at the parent's previous position.
 		link.enter().insert("svg:path", "g")
 			.attr("class", "link")
-			.attr("d", function(d) {
-				var o = {x: source.x0, y: source.y0};
-				return diagonal({source: o, target: o});
-			})
-		.transition()
+			.attr("d", function(d) { return diagonal({source: d.source, target: d.source}); })
+			.transition()
 			.duration(duration)
 			.attr("d", diagonal);
 
@@ -99,7 +108,6 @@ $(document).ready(function(){
 				var _source = new Object();
 				_source.x = d.source.x;
 				_source.y = d.source.y + 250;
-				console.log(_source);
 				return diagonal({source: _source, target: d.target});
 			});
 

@@ -2,10 +2,17 @@
 	fill: #EEE;
 }
 
+#body svg .node circle {
+  cursor: pointer;
+  fill: #fff;
+  stroke: #999;
+  stroke-width: 1.5px;
+}
+
 #body svg .node text {
 	fill: #666;
 	font-size: 18px;
-	dominant-baseline: middle;
+	dominant-baseline: central ;
 }
 
 #body svg .node text.add {
@@ -18,4 +25,10 @@
 	fill: black;
 	font-weight: bolder;
 	font-size: 20px;
+}
+
+#body svg path.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1.5px;
 }
