@@ -33,7 +33,7 @@ $.fn.extend({
 			// init data object 
 			if(args == null) args = new Object();
 
-			if(args.init == null) args.init = true;
+			if(args.init == null) args.init = false;
 			if(args.init == true) {
 				var _inline_bind = "[" + _INLINE_BIND_FORMAT + "]";
 				_com.find(_inline_bind).each(function(){
@@ -180,12 +180,7 @@ $.fn.extend({
 !function ($) {
 	var $input = null;
 	var $text = null;
-	var _rm = true;
 	$(document).on("click.flexjs.svg.text.editable", "[data-flexjs-object] text[data-bind-editable]", function(event){
-		if($input != null) {
-			updateInput();
-		}
-
 		var _my = $(this);
 		$text = _my;
 		$input = $("<input type='text' data-flexjs-input>");
@@ -195,29 +190,29 @@ $.fn.extend({
 		$input.css("font-size",_my.css("font-size"));
 		$input.val(_my.text());
 		$input.select();
-		$input.click(function(event){
-			_rm = false;
+		
+		$input.keyup(function(event) {
+			if(event.which == 13) {
+				updateInput();
+			}
 		});
-		_rm = false;
 	});
 
 	function updateInput() {
-		if(_rm) {
-			if($input != null) {
-				var $unit = $text.closest("[data-flexjs-object]");
-				var unit = $unit.data("flexjs");
-				var _value = $input.val();
-				var _key = $text.attr("data-bind-target");
-				unit.set(_key, _value);
+		if($input != null) {
+			var $unit = $text.closest("[data-flexjs-object]");
+			var unit = $unit.data("flexjs");
+			var _value = $input.val();
+			var _key = $text.attr("data-bind-target");
+			unit.set(_key, _value);
 
+			try {
 				$input.remove();
-				$input = null;
-			}
-		} else {
-			_rm = true;
+			} catch(e) {}
+			$input = null;
 		}
 	}
-	$(document).on("click.flexjs.svg.text.editable.blur", function(event){
+	$(document).on("blur.flexjs.svg.text.editable", "input[data-flexjs-input]", function(event){
 		updateInput();
 	});
 }(window.jQuery);

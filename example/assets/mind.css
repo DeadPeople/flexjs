@@ -1,0 +1,21 @@
+#body svg .node rect {
+	fill: #EEE;
+}
+
+#body svg .node text {
+	fill: #666;
+	font-size: 18px;
+	dominant-baseline: middle;
+}
+
+#body svg .node text.add {
+	cursor: pointer;
+	font-size: 18px;
+	text-anchor: middle;
+}
+
+#body svg .node text.add:hover {
+	fill: black;
+	font-weight: bolder;
+	font-size: 20px;
+}

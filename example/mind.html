@@ -10,6 +10,8 @@
 		<!-- flexjs -->
 		<script src="../src/flexjs.js"></script>
 
+		<script src="assets/mind.js"></script>
+		<link href="assets/mind.css" rel="stylesheet"/>
 <style>
 .node circle {
   cursor: pointer;
@@ -32,18 +34,12 @@ path.link {
 	<body>
 		<div id="body"></div>
 
-		<script src="assets/mind.js"></script>
-
 		<svg id="tmpl_svg" height="300" style="display:none;" version="1.1" xmlns="http://www.w3.org/2000/svg">
-			<g data-tmpl="demo" y="50">
-				<rect width="250" height="50" fill="#EEE" />
-				<text data-bind-target="txt_abc" x="10" y="30" data-bind-editable
-				font-size="20" font-family="black" fill="black">Your Mind</text>
-				<text class="add" x="230" y="30" data-mindmap-add>+</text>
+			<g data-tmpl="demo" transform="translate(0,-25)">
+				<rect width="250" height="50" />
+				<text data-bind-target="name" x="10" y="28" data-bind-editable>Your Mind</text>
+				<text class="add" x="230" y="28" data-mindmap-add>+</text>
 			</g>
-		</svg>
-
-		<svg id="target_svg" width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">
 		</svg>
 	</body>
 </html>
