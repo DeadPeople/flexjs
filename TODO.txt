@@ -1,3 +1,0 @@
-1.	init component
-2.	bind component with attr [data-bind-target]
-3.	component set into svg view
