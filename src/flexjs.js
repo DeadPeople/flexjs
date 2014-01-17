@@ -105,7 +105,7 @@
 			}
 
 			// add trans
-			_instance.setTrans = function(key, val) {
+			_instance.addTrans = function(key, val) {
 				var _trans = _instance.trans();
 				if(val != null) {
 					_trans[key] = val;
@@ -118,18 +118,30 @@
 
 			// remove trans
 			_instance.removeTrans = function(key) {
-				return _instance.setTrans(key, null);
+				return _instance.addTrans(key, null);
 			}
 
 			// transform: enhancement
 			{
 				_instance.move = function(tx, ty) {
 					if(ty == null) ty = 0;
-					_instance.setTrans("translate", [tx, ty]);
+					_instance.addTrans("translate", [tx, ty]);
 				}
 				_instance.scale = function(sx, sy) {
-					if(sy == null ) sy = sx;
-					_instance.setTrans("scale", [sx, sy]);
+					if(sy == null) sy = sx;
+					_instance.addTrans("scale", [sx, sy]);
+				}
+				_instance.rotate = function(angle, cx, cy) {
+					var lst = [angle];
+					if(cx != null && cy != null) lst = lst.concat(cx, cy);
+					_instance.addTrans("rotate", lst);
+				}
+				_instance.skew = function(ax, ay) {
+					_instance.addTrans("skewX", ax);
+					if(ay != null) _instance.addTrans("skewY", ay);
+				}
+				_instance.matrix = function(a, b, c, d, e, f) {
+					_instance.addTrans("matrix", [a, b, c, d, e, f]);
 				}
 			}
 
