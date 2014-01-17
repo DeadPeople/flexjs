@@ -8,7 +8,7 @@
 	</head>
 	<body>
 		<svg id="tmpl_svg" height="100" style="background: #F4F4F4;" version="1.1" xmlns="http://www.w3.org/2000/svg">
-			<g id="tmpl_dialog" y="50">
+			<g id="tmpl_dialog">
 				<rect width="300" height="50" fill="#999" />
 				<text data-bind-target="name" x="10" y="20" font-size="15" font-family="tempus sans itc" stroke="white" stroke-width="2">OMG</text>
 				<text data-bind-target="name" data-bind-editable x="10" y="40" font-size="15" font-family="tempus sans itc" stroke="white" stroke-width="2">OMG</text>
@@ -22,9 +22,19 @@
 	<script>
 		var svg = document.getElementById("tmpl_dialog");
 		var tmpl = flexjs(svg);
-		var obj = tmpl.getInstance({name: "Hello World!"});
+		var objs = tmpl.getInstance([{name: "Hello World!"}, {name: "Good Day"}]);
 
 		var cntr = document.getElementById("target_svg");
-		cntr.appendChild(obj);
+		objs.map(function(obj) {
+			cntr.appendChild(obj);
+		});
+
+		var obj = objs[1];
+		/*obj.trans("translate(350,0) scale(1.5)");
+		obj.setTrans("scale", "0.5");
+		obj.setTrans("rotate", [180, 150, 25]);
+		obj.removeTrans("rotate");*/
+		obj.move(310, 10);
+		obj.scale(1.5, 0.8);
 	</script>
 </html>
