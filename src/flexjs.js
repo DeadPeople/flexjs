@@ -39,6 +39,7 @@
 						}
 					}
 				}
+				return _instance;
 			}
 
 			// bind data of object
@@ -49,6 +50,7 @@
 				if(arg != null) {
 					data = arg;
 					_instance.update();
+					return _instance;
 				}
 				return data;
 			}
@@ -58,6 +60,7 @@
 				if(val != null) {
 					data[key] = val;
 					_instance.update();
+					return _instance;
 				}
 				return data[key];
 			}
@@ -78,24 +81,22 @@
 				var str = _instance.attr("class");
 				var lst = str == null ? [] : str.trim().split(/ /).filter(function(e) {return e != cls;});
 				if(insert) lst.push(cls);
-				_instance.attr("class", lst.join(" "));
-				
+				return _instance.attr("class", lst.join(" "));
 			}
 			_instance.addClass = function(cls) {
-				updateClass(cls, true);
-				return _instance;
+				return updateClass(cls, true);
 			}
 
 			// remove svg class
 			_instance.removeClass = function(cls) {
-				updateClass(cls, false);
-				return _instance;
+				return updateClass(cls, false);
 			}
 
 			// get & set svg attr
 			_instance.attr = function(key, val) {
 				if(val != null) {
 					_instance.setAttribute(key, val);
+					return _instance;
 				}
 				return _instance.getAttribute(key);
 			}
@@ -104,7 +105,7 @@
 			_instance.trans = function(arg) {
 				var _transform = "transform";
 				if(typeof arg === "string") {
-					_instance.attr(_transform, arg);
+					return _instance.attr(_transform, arg);
 				} else if(typeof arg === "object") {
 					var str = "";
 					for(var _key in arg) {
@@ -117,7 +118,7 @@
 							}
 						}
 					}
-					_instance.attr(_transform, str);
+					return _instance.attr(_transform, str);
 				}
 
 				// parse transform as array
@@ -141,8 +142,7 @@
 				} else {
 					delete _trans[key];
 				}
-				_instance.trans(_trans);
-				return val;
+				return _instance.trans(_trans);
 			}
 
 			// remove trans
@@ -154,23 +154,24 @@
 			{
 				_instance.move = function(tx, ty) {
 					if(ty == null) ty = 0;
-					_instance.addTrans("translate", [tx, ty]);
+					return _instance.addTrans("translate", [tx, ty]);
 				}
 				_instance.scale = function(sx, sy) {
 					if(sy == null) sy = sx;
-					_instance.addTrans("scale", [sx, sy]);
+					return _instance.addTrans("scale", [sx, sy]);
 				}
 				_instance.rotate = function(angle, cx, cy) {
 					var lst = [angle];
 					if(cx != null && cy != null) lst = lst.concat(cx, cy);
-					_instance.addTrans("rotate", lst);
+					return _instance.addTrans("rotate", lst);
 				}
 				_instance.skew = function(ax, ay) {
 					_instance.addTrans("skewX", ax);
 					if(ay != null) _instance.addTrans("skewY", ay);
+					return  _instance;
 				}
 				_instance.matrix = function(a, b, c, d, e, f) {
-					_instance.addTrans("matrix", [a, b, c, d, e, f]);
+					return _instance.addTrans("matrix", [a, b, c, d, e, f]);
 				}
 			}
 
