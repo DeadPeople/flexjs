@@ -63,6 +63,35 @@
 			}
 
 			// ================================ SVG function ======================================
+			// find subelement
+			_instance.find = function(str) {
+				var ret = [];
+				var lst = _instance.querySelectorAll(str);
+				for(var i = 0 ; i < lst.length ; i += 1) {
+					ret.push(lst[i]);
+				}
+				return ret;
+			}
+
+			// add svg class
+			function updateClass(cls, insert) {
+				var str = _instance.attr("class");
+				var lst = str == null ? [] : str.trim().split(/ /).filter(function(e) {return e != cls;});
+				if(insert) lst.push(cls);
+				_instance.attr("class", lst.join(" "));
+				
+			}
+			_instance.addClass = function(cls) {
+				updateClass(cls, true);
+				return _instance;
+			}
+
+			// remove svg class
+			_instance.removeClass = function(cls) {
+				updateClass(cls, false);
+				return _instance;
+			}
+
 			// get & set svg attr
 			_instance.attr = function(key, val) {
 				if(val != null) {

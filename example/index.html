@@ -36,7 +36,19 @@
 		obj.removeTrans("rotate");*/
 		obj.move(310, 10);
 		obj.scale(1.5, 0.8);
-		obj.rotate(30, 150, 25);
-		obj.skew(50, 10);
+		obj.rotate(3, 150, 25);
+		obj.skew(1, 1);
+		
+		obj.addClass("side").addClass("fill").removeClass("side");
 	</script>
+	
+	<style>
+		.side rect {
+			stroke: red;
+			stroke-width: 2;
+		}
+		.fill rect {
+			fill: #9999FF;
+		}
+	</style>
 </html>
