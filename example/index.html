@@ -9,9 +9,9 @@
 	<body>
 		<svg id="tmpl_svg" height="100" style="background: #F4F4F4;" version="1.1" xmlns="http://www.w3.org/2000/svg">
 			<g id="tmpl_dialog">
-				<rect width="300" height="50" fill="#999" />
-				<text data-bind-target="name" x="10" y="20" font-size="15" font-family="tempus sans itc" stroke="white" stroke-width="2">OMG</text>
-				<text data-bind-target="name" data-bind-editable x="10" y="40" font-size="15" font-family="tempus sans itc" stroke="white" stroke-width="2">OMG</text>
+				<rect flexjs-bind-class="!displayName(side) displayName(fill)"  width="300" height="50" fill="#999" />
+				<text flexjs-bind-target="name" flexjs-bind-display="displayName" 
+				x="10" y="35" font-size="30" font-family="tempus sans itc" stroke="white" stroke-width="2">OMG</text>Display it !</text>
 			</g>
 		</svg>
 
@@ -22,7 +22,7 @@
 	<script>
 		var svg = document.getElementById("tmpl_dialog");
 		var tmpl = flexjs(svg);
-		var objs = tmpl.getInstance([{name: "Hello World!"}, {name: "Good Day"}]);
+		var objs = tmpl.getInstance([{name: "Hello World!", displayName: true}, {name: "Good Day", displayName: false}]);
 
 		var cntr = document.getElementById("target_svg");
 		objs.map(function(obj) {
@@ -39,15 +39,23 @@
 		obj.rotate(3, 150, 25);
 		obj.skew(1, 1);
 		
-		obj.addClass("side").addClass("fill").removeClass("side");
+		obj.addClass("abc").removeClass("abc");
 	</script>
 	
 	<style>
 		.side rect {
-			stroke: red;
+			stroke: #9999FF;
 			stroke-width: 2;
 		}
 		.fill rect {
+			fill: red;
+		}
+
+		rect.side {
+			stroke: red;
+			stroke-width: 2;
+		}
+		rect.fill {
 			fill: #9999FF;
 		}
 	</style>

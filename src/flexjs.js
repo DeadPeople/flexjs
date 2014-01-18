@@ -7,6 +7,17 @@
 
 	instance.transform(arg)			get & set transform attr.
 	arg:			object/string	transform content
+
+	instance.update()				refresh svg
+	instance.object(object)			get & set binded object
+	instance.objAttr(key, val)		get & set object attribute
+	instance.find(query)			find sub svg element of instance
+	instance.addClass(cls)			add class
+	instance.removeClass(cls)		remove class
+	instance.attr(key, val)			get & set svg attribute
+	instance.trans(arg)				get & set transform (get as object contains sperate transform)
+	arg:			string/object
+	instance.addTrans
 ***/
 
 (function() {
@@ -15,6 +26,39 @@
 		_elment.removeAttribute("id");
 
 		this.__element__ = _elment;
+
+		function __each(ary, callback) {
+			for(var i = 0; i < ary.length ; i+= 1) {
+				if(callback(i, ary[i]) === false) break;
+			}
+		}
+
+		function __val(data, key) {
+			return val = key.match(/^\!/) == null ? data[key] : !data[key.substr(1)];
+		}
+
+		function __addStr(str, key) {
+			var has = false;
+			if(str == null) str = "";
+			__each(str.trim().split(/\s+/), function(i, e) {
+				if(e == key) {
+					has = true;
+					return false;
+				}
+			});
+			if(!has) {
+				str += " " + key;
+			}
+			return str;
+		}
+
+		function __removeStr(str, key) {
+			if(str == null) str = "";
+			return str.trim().split(/\s+/).filter(function(e) {
+				return e != key;
+			}).join(" ");
+			return str;
+		}
 
 		this.getInstance = function(data) {
 			// init para
@@ -28,23 +72,7 @@
 
 			var _instance = _elment.cloneNode(true);
 
-			// update data to svg
-			_instance.update = function() {
-				for(var _key in data) {
-					var _val = data[_key];
-					if(typeof _val != 'function') {
-						var _eles = _instance.querySelectorAll("[data-bind-target='" + _key + "']");
-						for(var i in _eles) {
-							_eles[i].textContent = _val;
-						}
-					}
-				}
-				return _instance;
-			}
-
-			// bind data of object
-			_instance.update();
-
+			// =============================== Object function ====================================
 			// get & set binded object
 			_instance.object = function(arg) {
 				if(arg != null) {
@@ -66,30 +94,67 @@
 			}
 
 			// ================================ SVG function ======================================
+			// update svg
+			_instance.update = function() {
+				var _BIND_TARGET = "flexjs-bind-target";
+				var _BIND_DISPLAY = "flexjs-bind-display";
+				var _BIND_CLASS = "flexjs-bind-class";
+
+				// update bind target content
+				var bindTargets = _instance.querySelectorAll("[" + _BIND_TARGET + "]");
+				__each(bindTargets, function(i, ele) {
+					var key = ele.getAttribute(_BIND_TARGET);
+					ele.textContent = data[key];
+				});
+
+				// update bind display content
+				var bindDisplays = _instance.querySelectorAll("[" + _BIND_DISPLAY + "]");
+				__each(bindDisplays, function(i, ele) {
+					var key = ele.getAttribute(_BIND_DISPLAY);
+					var val = __val(data, key);
+					ele.style.display = val === false ? "none" : "block";
+				});
+
+				// update bind class content
+				var bindClasses = _instance.querySelectorAll("[" + _BIND_CLASS + "]");
+				__each(bindClasses, function(i, ele) {
+					var str = ele.getAttribute(_BIND_CLASS);
+					__each(str.split(/\s+/), function(j, str) {
+						var lst = str.match(/[^\(\) ,]+/g);
+						var flag = __val(data, lst[0]);
+						var cls = lst[1];
+						var attr = ele.getAttribute("class");
+						if(flag)
+							ele.setAttribute("class", __addStr(attr, cls));
+						else
+							ele.setAttribute("class", __removeStr(attr, cls));
+					});
+				});
+
+				return _instance;
+			}
+
+			// bind data of object
+			_instance.update();
+
 			// find subelement
 			_instance.find = function(str) {
 				var ret = [];
 				var lst = _instance.querySelectorAll(str);
-				for(var i = 0 ; i < lst.length ; i += 1) {
-					ret.push(lst[i]);
-				}
+				__each(lst, function(i, obj) {
+					ret.push(obj);
+				});
 				return ret;
 			}
 
 			// add svg class
-			function updateClass(cls, insert) {
-				var str = _instance.attr("class");
-				var lst = str == null ? [] : str.trim().split(/ /).filter(function(e) {return e != cls;});
-				if(insert) lst.push(cls);
-				return _instance.attr("class", lst.join(" "));
-			}
 			_instance.addClass = function(cls) {
-				return updateClass(cls, true);
+				return _instance.attr("class", __addStr(_instance.attr("class"), cls));
 			}
 
 			// remove svg class
 			_instance.removeClass = function(cls) {
-				return updateClass(cls, false);
+				return _instance.attr("class", __removeStr(_instance.attr("class"), cls));
 			}
 
 			// get & set svg attr
