@@ -4,6 +4,8 @@ $(document).ready(function(){
 	var t_id, _top = 0;
 	var _nav = $("#nav_bar");
 	loadPage("gettingStarted", "Getting Started");
+	loadPage("asTemplate", "As Template");
+	loadPage("bindData", "Bind Data");
 
 	// bind width of left nav bar
 	$(window).resize(function() {
@@ -94,6 +96,16 @@ $(document).ready(function(){
 						.find("[href=" + _h1 + "]").closest("li").addClass("active");
 					}
 				});
+
+				// format pre content to more colorful
+				$("pre.html").each(function() {
+					var content = $(this).html();
+					$(this).html(formartHTML(content));
+				});
+				$("pre.js").each(function() {
+					var content = $(this).html();
+					$(this).html(formartJS(content));
+				});
 			}
 		});
 	}
@@ -122,5 +134,22 @@ $(document).ready(function(){
 			}
 		}, 30);
 	}
-	aaa = scrollTop;
+
+	function formartHTML(content) {
+		content = content.replace(/(&lt;\/\w+&gt;)/g, "<span class='quote'>$1</span>");
+		content = content.replace(/(&lt;\w+)/g, "<span class='quote'>$1</span>");
+		content = content.replace(/(&gt;)/g, "<span class='quote'>$1</span>");
+		content = content.replace(/(\w+=)("[^"]*")/g, "<span class='key'>$1</span><span class='value'>$2</span>");
+		return content;
+	}
+	function formartJS(content) {
+		content = content.replace(/("[^"]*")/g, "<span class=\"string\">$1</span>");
+		content = content.replace(/('[^']*')/g, "<span class=\"string\">$1</span>");
+		content = content.replace(/\b(var)\b/g, "<span class=\"var\">$1</span>");
+		content = content.replace(/\b(true|false)\b/g, "<span class=\"boolean\">$1</span>");
+		content = content.replace(/\b(\d+)\b/g, "<span class=\"number\">$1</span>");
+		content = content.replace(/\b(function|\.\w+)\b/g, "<span class=\"function\">$1</span>");
+		content = content.replace(/(\/\/.*)/g, "<span class=\"comment\">$1</span>");
+		return content;
+	}
 });

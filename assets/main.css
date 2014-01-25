@@ -201,6 +201,9 @@ color: #fff;
 	color: #FF6600;
 	font-weight: bolder;
 }
+#ctnr_content pre .var {
+	color: #8899FF;
+}
 #ctnr_content pre .number {
 	color: #FF6600;
 }
@@ -214,6 +217,24 @@ color: #fff;
 #ctnr_content pre .comment {
 	color: #999;
 }
+#ctnr_content pre .quote,
+#ctnr_content pre .key {
+	color: #006699;
+}
+#ctnr_content pre .value {
+	color: #CC3300;
+}
+#ctnr_content .pre-group pre.html {
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+	border-bottom: none;
+	margin-bottom: 0;
+}
+#ctnr_content .pre-group pre.js {
+	border-top-right-radius: 0;
+	border-top-left-radius: 0;
+}
+
 
 
 

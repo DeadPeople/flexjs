@@ -1,0 +1,82 @@
+﻿<h1>As Template</h1>
+<h2>Prepare Template</h2>
+<p>First of all, you should prepare a svg element as template. For example, follow <code>&lt;g&gt;...&lt;/g&gt;</code> is the template svg element.</p>
+<pre class="html">
+&lt;svg version="1.1" xmlns="http://www.w3.org/2000/svg"&gt;
+    &lt;g id="tmpl"&gt;
+        &lt;text&gt;Hello FlexJS&lt;/text&gt;
+    &lt;/g&gt;
+&lt;/svg&gt;
+</pre>
+
+
+<h2>Generate Template Instance</h2>
+<p>Then use function <code>flexjs</code> to generate as template object. Follow <code>tmpl</code> is template object.</p>
+<pre class="js">
+var svg = document.getElementById("tmpl");
+var tmpl = flexjs(svg);
+</pre>
+
+
+<p>Use <code>getInstance</code> generate an svg copy.</p>
+<pre class="js">
+var ele = tmpl.getInstance();
+</pre>
+
+
+<h2>Apply your Instance</h2>
+<p>And append copy to your target svg container.</p>
+<div class="pre-group">
+<pre class="html">
+&lt;svg id="cntr" version="1.1" xmlns="http://www.w3.org/2000/svg"&gt;
+&lt;/svg&gt;
+</pre>
+<pre class="js">
+var cntr = document.getElementById("cntr");
+cntr.appendChild(ele);
+</pre>
+<div>
+
+<style>
+svg text {
+	fill: black;
+	alignment-baseline: baseline ;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

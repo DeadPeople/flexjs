@@ -1,0 +1,98 @@
+﻿<h1>Bind Data</h1>
+<p class="lead">Now, it's time to bind object to the svg element. Let's rock!</p>
+
+<h2>Bind Text</h2>
+<p>Add <code>flexjs-bind-target</code> attribute to the <code>svg:text</code> element which you want to bind. Set value as the <code>attribute</code> name which mapped to the object.</p>
+
+
+
+
+
+
+
+<p>First of all, you should prepare a svg element as template. For example, follow <code>&lt;g&gt;...&lt;/g&gt;</code> is the template svg element.</p>
+<pre class="html">
+&lt;svg version="1.1" xmlns="http://www.w3.org/2000/svg"&gt;
+    &lt;g id="tmpl"&gt;
+        &lt;text&gt;Hello FlexJS&lt;/text&gt;
+    &lt;/g&gt;
+&lt;/svg&gt;
+</pre>
+
+
+<p>Then use function <code>flexjs</code> to generate as template object. Follow <code>tmpl</code> is template object.</p>
+<pre class="js">
+var svg = document.getElementById("tmpl");
+var tmpl = flexjs(svg);
+</pre>
+
+
+<p>Use <code>getInstance</code> generate an svg copy.</p>
+<pre class="js">
+var ele = tmpl.getInstance();
+</pre>
+
+
+<p>And append copy to your target svg container.</p>
+<div class="pre-group">
+<pre class="html">
+&lt;svg id="cntr" version="1.1" xmlns="http://www.w3.org/2000/svg"&gt;
+&lt;/svg&gt;
+</pre>
+<pre class="js">
+var cntr = document.getElementById("cntr");
+cntr.appendChild(ele);
+</pre>
+<div>
+
+
+
+
+
+
+
+<div style="height: 1000px;"></div>
+
+<style>
+svg text {
+	fill: black;
+	alignment-baseline: baseline ;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
