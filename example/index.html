@@ -11,11 +11,15 @@
 			<g id="tmpl_dialog">
 				<rect flexjs-bind-class="!displayName(side) displayName(fill)"  width="300" height="50" fill="#999" />
 				<text flexjs-bind-target="name" flexjs-bind-display="displayName" 
-				x="10" y="35" font-size="30" font-family="tempus sans itc" stroke="white" stroke-width="2">OMG</text>Display it !</text>
+				x="10" y="35" font-size="30" font-family="tempus sans itc" stroke="white" stroke-width="2">OMG</text>
 			</g>
 		</svg>
 
 		<svg id="target_svg" width="100%" height="200" style="background: #FFFFA4;" version="1.1" xmlns="http://www.w3.org/2000/svg">
+			<g id="rectIst" transform="translate(0 100)">
+				<rect  width="300" height="50" fill="#FFF" />
+				<text flexjs-bind-target="name" x="10" y="35" font-size="30" fill="red">HelloWorld</text>
+			</g>
 		</svg>
 	</body>
 
@@ -38,8 +42,14 @@
 		obj.scale(1.5, 0.8);
 		obj.rotate(3, 150, 25);
 		obj.skew(1, 1);
-		
+
 		obj.addClass("abc").removeClass("abc");
+
+		// --------------------------------------------
+		var svg2 = document.getElementById("rectIst");
+		var tmpl2 = flexjs(svg2);
+		//var ist = flexjs(tmpl2).asInstance();
+		console.log(tmpl2);
 	</script>
 	
 	<style>

@@ -18,14 +18,19 @@
 	instance.trans(arg)				get & set transform (get as object contains sperate transform)
 	arg:			string/object
 	instance.addTrans
+
+	flexjs(srcTmpl).asInstance(arg)
+	set target element as svg component.
 ***/
 
 (function() {
 	flexjs = function(element) {
+		var ret = new Object();
+
 		var _elment = element.cloneNode(true);
 		_elment.removeAttribute("id");
 
-		this.__element__ = _elment;
+		ret.__element__ = _elment;
 
 		function __each(ary, callback) {
 			for(var i = 0; i < ary.length ; i+= 1) {
@@ -60,17 +65,25 @@
 			return str;
 		}
 
-		this.getInstance = function(data) {
+		ret.asInstance = function(data) {
+			return toInstance(element, data);
+		}
+
+		ret.getInstance = function(data) {
+			var _instance = _elment.cloneNode(true);
+			return toInstance(_instance, data);
+		}
+
+
+		function toInstance(_instance, data) {
 			// init para
 			if(data == null) {
 				data = {};
 			} else if(Array.isArray(data)) {
 				return data.map(function(e) {
-					return this.getInstance(e);
+					return ret.getInstance(e);
 				});
 			}
-
-			var _instance = _elment.cloneNode(true);
 
 			// =============================== Object function ====================================
 			// get & set binded object
@@ -104,7 +117,8 @@
 				var bindTargets = _instance.querySelectorAll("[" + _BIND_TARGET + "]");
 				__each(bindTargets, function(i, ele) {
 					var key = ele.getAttribute(_BIND_TARGET);
-					ele.textContent = data[key];
+					var val = data[key];
+					if(val !== undefined) ele.textContent = val;
 				});
 
 				// update bind display content
@@ -242,7 +256,7 @@
 
 			return _instance;
 		}
-		return this;
+		return ret;
 	}
 
 	/*document.addEventListener("click",function(event) {
