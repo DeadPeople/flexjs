@@ -37,14 +37,49 @@ cntr.appendChild(ele);
 </pre>
 <div>
 
+
+<div class="bs-example">
+	<div class="content">
+		<h4>Template:</h4>
+		<svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+			<g id="tmpl1">
+				<text>Hello FlexJS</text>
+			</g>
+		</svg>
+		<button id="btn1" class="btn btn-primary">Generate</button>
+		<h4>Container:</h4>
+		<svg id="cntr1" version="1.1" xmlns="http://www.w3.org/2000/svg">
+		</svg>
+	</div>
+</div>
+
+
 <style>
+svg {
+	height: 30px;
+	background: #F4F4F4;
+}
+svg + svg {
+	margin-top: 10px;
+}
 svg text {
 	fill: black;
-	alignment-baseline: baseline ;
+	font-family: tempus sans itc;
+	font-weight: bolder;
+	alignment-baseline: before-edge ;
 }
 </style>
 
-
+<script>
+$(document).ready(function() {
+	$("#btn1").click(function() {
+		var node = document.getElementById("tmpl1");
+		var tmpl = flexjs(node);
+		var cntr = document.getElementById("cntr1");
+		cntr.appendChild(tmpl.getInstance());
+	});
+});
+</script>
 
 
 

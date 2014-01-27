@@ -1,64 +1,143 @@
 ﻿<h1>Bind Data</h1>
 <p class="lead">Now, it's time to bind object to the svg element. Let's rock!</p>
 
+
+
+
+
+
+
+
 <h2>Bind Text</h2>
-<p>Add <code>flexjs-bind-target</code> attribute to the <code>svg:text</code> element which you want to bind. Set value as the <code>attribute</code> name which mapped to the object.</p>
+<p>Add <code>flexjs-bind-target</code> attribute to the <code>svg:text</code> element which you want to bind. Set value as the <code>attribute</code> name which mapped to the object. Follw sample bind attribute of <code>name</code></p>
 
-
-
-
-
-
-
-<p>First of all, you should prepare a svg element as template. For example, follow <code>&lt;g&gt;...&lt;/g&gt;</code> is the template svg element.</p>
 <pre class="html">
-&lt;svg version="1.1" xmlns="http://www.w3.org/2000/svg"&gt;
-    &lt;g id="tmpl"&gt;
-        &lt;text&gt;Hello FlexJS&lt;/text&gt;
-    &lt;/g&gt;
-&lt;/svg&gt;
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+	<g id="tmpl">
+		<text flexjs-bind-target="name">Hello FlexJS</text>
+	</g>
+</svg>
 </pre>
 
+<p>Prepare object which need to bind on the svg instance. Follw sample object has attribute of <code>name</code> values "I'm FlexJS".</p>
+<pre class="js">
+var obj = {
+	name: "I'm FlexJS"
+}
+</pre>
 
-<p>Then use function <code>flexjs</code> to generate as template object. Follow <code>tmpl</code> is template object.</p>
+<p>call template <code>getInstance</code> function by object as argument.</p>
 <pre class="js">
 var svg = document.getElementById("tmpl");
 var tmpl = flexjs(svg);
+var ele = tmpl.getInstance(obj);
 </pre>
 
+<p>And append instance to your target svg container.</p>
+<div class="bs-example">
+	<div class="content">
+		<h4>Template:</h4>
+		<svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+			<g id="tmpl2">
+				<text flexjs-bind-target="name">Hello FlexJS</text>
+			</g>
+		</svg>
+		<button id="btn2" class="btn btn-primary">Generate</button>
+		<h4>Container:</h4>
+		<svg id="cntr2" version="1.1" xmlns="http://www.w3.org/2000/svg">
+		</svg>
+	</div>
+</div>
 
-<p>Use <code>getInstance</code> generate an svg copy.</p>
-<pre class="js">
-var ele = tmpl.getInstance();
-</pre>
+<script>
+$(document).ready(function() {
+	$("#btn2").click(function() {
+		var node = document.getElementById("tmpl2");
+		var tmpl = flexjs(node);
+		var cntr = document.getElementById("cntr2");
+		cntr.appendChild(tmpl.getInstance({name: "I'm FlexJS"}));
+	});
+});
+</script>
 
 
-<p>And append copy to your target svg container.</p>
-<div class="pre-group">
+
+
+
+<h2>Bind Display</h2>
+<p>FlexJS also support sub element in the instance display status with object attribute.</p>
+<p>Add attribute <code>flexjs-bind-display</code> on the sub <code>element</code>. Set value as the <code>attribute</code> name which mapped to the object. Follw sample bind attribute of <code>next</code>.</p>
+
 <pre class="html">
-&lt;svg id="cntr" version="1.1" xmlns="http://www.w3.org/2000/svg"&gt;
-&lt;/svg&gt;
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+	<g>
+		<polygon flexjs-bind-display="next" points="30,5 20,15 30,25" />
+		<rect width="20" height="10" x="30" y="10"></rect>
+		<polygon flexjs-bind-display="!next" points="50,5 60,15 50,25" />
+	</g>
+</svg>
 </pre>
+
+<p>Set value as boolean for the object's <code>attribute</code>.</p>
 <pre class="js">
-var cntr = document.getElementById("cntr");
-cntr.appendChild(ele);
+var obj = {
+	next: true
+}
 </pre>
-<div>
 
+<p>Bind it!</p>
 
+<div class="bs-example">
+	<div class="content">
+		<h4>Template:</h4>
+		<svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+			<g id="tmpl3" class="row">
+				<polygon flexjs-bind-display="next" points="30,5 20,15 30,25" />
+				<rect width="20" height="10" x="30" y="10"></rect>
+				<polygon flexjs-bind-display="!next" points="50,5 60,15 50,25" />
+			</g>
+		</svg>
+		<button id="btn3_1" class="btn btn-primary">next: true</button>
+		<button id="btn3_2" class="btn btn-primary">next: false</button>
+		<h4>Container:</h4>
+		<svg id="cntr3" version="1.1" xmlns="http://www.w3.org/2000/svg">
+		</svg>
+	</div>
+</div>
 
+<script>
+$(document).ready(function() {
+	var node = document.getElementById("tmpl3");
+	var tmpl = flexjs(node);
+	var cntr = document.getElementById("cntr3");
+	var obj = {next: true};
+	var instance = tmpl.getInstance(obj);
+	cntr.appendChild(instance);
 
+	$("#btn3_1").click(function() {
+		obj.next = true;
+		instance.update();
+	});
+	$("#btn3_2").click(function() {
+		obj.next = false;
+		instance.update();
+	});
+});
+</script>
+
+<style>
+svg g.row rect,
+svg g.row polygon {
+	fill: red;
+}
+</style>
 
 
 
 <div style="height: 1000px;"></div>
 
-<style>
-svg text {
-	fill: black;
-	alignment-baseline: baseline ;
-}
-</style>
+
+
 
 
 

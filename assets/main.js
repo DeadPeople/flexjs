@@ -99,11 +99,11 @@ $(document).ready(function(){
 
 				// format pre content to more colorful
 				$("pre.html").each(function() {
-					var content = $(this).html();
+					var content = format($(this).html());
 					$(this).html(formartHTML(content));
 				});
 				$("pre.js").each(function() {
-					var content = $(this).html();
+					var content = format($(this).html());
 					$(this).html(formartJS(content));
 				});
 			}
@@ -135,11 +135,14 @@ $(document).ready(function(){
 		}, 30);
 	}
 
+	function format(content) {
+		return content.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\t/g, "    ");
+	}
 	function formartHTML(content) {
 		content = content.replace(/(&lt;\/\w+&gt;)/g, "<span class='quote'>$1</span>");
 		content = content.replace(/(&lt;\w+)/g, "<span class='quote'>$1</span>");
 		content = content.replace(/(&gt;)/g, "<span class='quote'>$1</span>");
-		content = content.replace(/(\w+=)("[^"]*")/g, "<span class='key'>$1</span><span class='value'>$2</span>");
+		content = content.replace(/([\w\-]+=)("[^"]*")/g, "<span class='key'>$1</span><span class='value'>$2</span>");
 		return content;
 	}
 	function formartJS(content) {
