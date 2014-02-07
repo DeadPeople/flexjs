@@ -7,7 +7,7 @@
 
 
 
-
+<!----- Bind Text ----->
 <h2>Bind Text</h2>
 <p>Add <code>flexjs-bind-target</code> attribute to the <code>svg:text</code> element which you want to bind. Set value as the <code>attribute</code> name which mapped to the object. Follw sample bind attribute of <code>name</code></p>
 
@@ -63,7 +63,7 @@ $(document).ready(function() {
 
 
 
-
+<!----- Bind Display ----->
 <h2>Bind Display</h2>
 <p>FlexJS also support sub element in the instance display status with object attribute.</p>
 <p>Add attribute <code>flexjs-bind-display</code> on the sub <code>element</code>. Set value as the <code>attribute</code> name which mapped to the object. Follw sample bind attribute of <code>next</code>.</p>
@@ -71,9 +71,9 @@ $(document).ready(function() {
 <pre class="html">
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
 	<g>
-		<polygon flexjs-bind-display="next" points="30,5 20,15 30,25" />
+		<polygon flexjs-bind-display="!next" points="30,5 20,15 30,25" />
 		<rect width="20" height="10" x="30" y="10"></rect>
-		<polygon flexjs-bind-display="!next" points="50,5 60,15 50,25" />
+		<polygon flexjs-bind-display="next" points="50,5 60,15 50,25" />
 	</g>
 </svg>
 </pre>
@@ -92,9 +92,9 @@ var obj = {
 		<h4>Template:</h4>
 		<svg version="1.1" xmlns="http://www.w3.org/2000/svg">
 			<g id="tmpl3" class="row">
-				<polygon flexjs-bind-display="next" points="30,5 20,15 30,25" />
+				<polygon flexjs-bind-display="!next" points="30,5 20,15 30,25" />
 				<rect width="20" height="10" x="30" y="10"></rect>
-				<polygon flexjs-bind-display="!next" points="50,5 60,15 50,25" />
+				<polygon flexjs-bind-display="next" points="50,5 60,15 50,25" />
 			</g>
 		</svg>
 		<button id="btn3_1" class="btn btn-primary">next: true</button>
@@ -131,6 +131,18 @@ svg g.row polygon {
 	fill: red;
 }
 </style>
+
+
+
+
+<!----- Bind Class ----->
+<h2>Bind Class</h2>
+<p>You can also bind <code>class</code> to the <code>element</code>.</p>
+<p>Add attribute <code>flexjs-bind-class</code> on the sub <code>element</code>. Set value as the <code>attribute</code> name which mapped to the object. Add bind <code>class</code> after <code>attribute</code> in the parentheses.</p>
+<p>Follow example component will contains class <code>side</code> when <code>hasSide</code> is <code>true</code> and contains class <code>fill</code> when <code>fillContent</code> is <code>false</code>.</p>
+<pre class="html">
+<rect flexjs-bind-class="hasSide(side) !fillContent(fill)" />
+</pre>
 
 
 

@@ -1,6 +1,6 @@
 /***
 	flexjs(srcTmpl).getInstance(arg)
-	render svg component by template "srcTmpl" bind with data "object".
+	render svg component by template "srcTmpl" (string / dom) bind with data "object".
 	arg:			null			bind no data.
 					object			bind object to svg
 					array			return list of binded objects
@@ -27,8 +27,11 @@
 	flexjs = function(element) {
 		var ret = new Object();
 
-		var _elment = element.cloneNode(true);
-		_elment.removeAttribute("id");
+		var _elment;
+		if(typeof element == "string")
+			_elment = document.querySelector(element)
+		else
+			_elment = element.cloneNode(true);
 
 		ret.__element__ = _elment;
 
@@ -71,6 +74,7 @@
 
 		ret.getInstance = function(data) {
 			var _instance = _elment.cloneNode(true);
+			_instance.removeAttribute("id");
 			return toInstance(_instance, data);
 		}
 
