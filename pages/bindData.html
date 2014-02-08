@@ -82,7 +82,7 @@ $(document).ready(function() {
 <pre class="js">
 var obj = {
 	next: true
-}
+};
 </pre>
 
 <p>Bind it!</p>
@@ -97,8 +97,8 @@ var obj = {
 				<polygon flexjs-bind-display="next" points="50,5 60,15 50,25" />
 			</g>
 		</svg>
-		<button id="btn3_1" class="btn btn-primary">next: true</button>
-		<button id="btn3_2" class="btn btn-primary">next: false</button>
+		<button id="btn3_1" class="btn btn-primary">next => true</button>
+		<button id="btn3_2" class="btn btn-primary">next => false</button>
 		<h4>Container:</h4>
 		<svg id="cntr3" version="1.1" xmlns="http://www.w3.org/2000/svg">
 		</svg>
@@ -143,6 +143,58 @@ svg g.row polygon {
 <pre class="html">
 <rect flexjs-bind-class="hasSide(side) !fillContent(fill)" />
 </pre>
+<pre class="js">
+var obj = {
+	hasSide: true,
+	fillContent: true
+};
+</pre>
+
+<div class="bs-example">
+	<div class="content">
+		<svg id="cntr4" version="1.1" xmlns="http://www.w3.org/2000/svg">
+			<g>
+				<rect x="10" y="10" height="50" width="100" 
+				flexjs-bind-class="hasSide(side) !fillContent(fill)" />
+			</g>
+		</svg>
+		<button id="btn4_1" class="btn btn-primary">hasSide = !hasSide</button>
+		<button id="btn4_2" class="btn btn-primary">fillContent = !fillContent</button>
+	</div>
+</div>
+<script>
+$(document).ready(function() {
+	var cntr = document.getElementById("cntr4");
+	var element = cntr.querySelector("g");
+	var obj = {hasSide: true, fillContent: true};
+	var instance = flexjs(element).asInstance(obj);
+
+	$("#btn4_1").click(function() {
+		obj.hasSide = !obj.hasSide;
+		instance.update();
+	});
+	$("#btn4_2").click(function() {
+		obj.fillContent = !obj.fillContent;
+		instance.update();
+	});
+});
+</script>
+<style>
+#cntr4 {
+	height: 70px;
+}
+#cntr4 rect {
+	fill: #AAA;
+}
+#cntr4 rect.side {
+	stroke: #004499;
+	stroke-width: 2;
+}
+#cntr4 rect.fill {
+	fill: #AFF;
+}
+</style>
+
 
 
 
