@@ -18,6 +18,10 @@
 	instance.trans(arg)				get & set transform (get as object contains sperate transform)
 	arg:			string/object
 	instance.addTrans
+	instance.move(tx[, ty])
+	instance.scale(sx[, sy])
+	instance.rotate(angle[, px, py])
+	instance.skew(ax[, ay])
 
 	flexjs(srcTmpl).asInstance(arg)
 	set target element as svg component.
