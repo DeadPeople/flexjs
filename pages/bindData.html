@@ -9,7 +9,7 @@
 
 <!----- Bind Text ----->
 <h2>Bind Text</h2>
-<p>Add <code>flexjs-bind-target</code> attribute to the <code>svg:text</code> element which you want to bind. Set value as the <code>attribute</code> name which mapped to the object. Follw sample bind attribute of <code>name</code></p>
+<p>Add <code>flexjs-bind-target</code> attribute to the <code>svg:text</code> element which you want to bind. Set value as the <code>attribute</code> name which mapped to the object. Follw sample bind attribute of <code>name</code>.</p>
 
 <pre class="html">
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -60,6 +60,37 @@ $(document).ready(function() {
 });
 </script>
 
+
+
+<p>Call <code>update</code> to refresh it.</p>
+<pre class="js">
+obj.name = "new name";
+ele.update();
+</pre>
+<div class="bs-example">
+	<div class="content">
+		<svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+			<g id="tmpl2_2">
+				<text flexjs-bind-target="name">Hello FlexJS</text>
+			</g>
+		</svg>
+		<input id="ipt2_2" type="text" class="form-control" style="width: 400px; display: inline-block;" value="Hello FlexJS" />
+		<button id="btn2_2" class="btn btn-primary">Update</button>
+	</div>
+</div>
+
+<script>
+$(document).ready(function() {
+	var obj = {name: "Hello FlexJS"};
+	var tmpl = flexjs(document.getElementById("tmpl2_2"));
+	var instance = tmpl.asInstance(obj);
+
+	$("#btn2_2").click(function() {
+		obj.name = $("#ipt2_2").val();
+		instance.update();
+	});
+});
+</script>
 
 
 
@@ -132,6 +163,8 @@ svg g.row polygon {
 }
 </style>
 
+<p>Call <code>update</code> to refresh it.</p>
+
 
 
 
@@ -195,47 +228,4 @@ $(document).ready(function() {
 }
 </style>
 
-
-
-
-<div style="height: 1000px;"></div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<p>Call <code>update</code> to refresh it.</p>

@@ -1,0 +1,233 @@
+<h1>Transform</h1>
+<p class="lead">FlexJS provides simple svg transform control function.</p>
+
+<!----- Transform Move ----->
+<h3>.move(tx[, ty])</h3>
+<p>Move svg to the target position.</p>
+
+<pre class="js">
+ele.move(10, 20);
+</pre>
+
+<div class="bs-example">
+	<div class="content">
+		<svg id="cntr5" version="1.1" xmlns="http://www.w3.org/2000/svg">
+			<g>
+				<circle r="5" fill="red" />
+			</g>
+		</svg>
+		x: <input id="ipt5_x" type="text" class="form-control" value="10" />
+		y: <input id="ipt5_y" type="text" class="form-control" value="20" />
+	</div>
+</div>
+
+
+<script>
+$(document).ready(function() {
+	var ele = flexjs(document.getElementById("cntr5").querySelector("g")).asInstance();
+
+	function update() {
+		var _x = Number($("#ipt5_x").val());
+		var _y = Number($("#ipt5_y").val());
+		if(!isNaN(_x) && !isNaN(_y)) {
+			ele.move(_x, _y);
+		}
+	}
+	$("#ipt5_x, #ipt5_y").keyup(function() {
+		update();
+	});
+	update();
+});
+</script>
+
+<style>
+#cntr5 {
+	height: 200px;
+}
+
+#ipt5_x, #ipt5_y {
+	width: 100px;
+	display: inline-block;
+	padding: 3px 5px;
+}
+</style>
+
+
+
+<!----- Transform Scale ----->
+<h3>.scale(sx[, sy])</h3>
+<p>Scale svg size.</p>
+
+<pre class="js">
+ele.scale(3, 1.5);
+</pre>
+
+<div class="bs-example">
+	<div class="content">
+		<svg id="cntr6" version="1.1" xmlns="http://www.w3.org/2000/svg">
+			<g>
+				<text>Hello FlexJS</text>
+			</g>
+		</svg>
+		scaleX: <input id="ipt6_x" type="text" class="form-control" value="3" />
+		scaleY: <input id="ipt6_y" type="text" class="form-control" value="1.5" />
+	</div>
+</div>
+
+<script>
+$(document).ready(function() {
+	var ele = flexjs(document.getElementById("cntr6").querySelector("g")).asInstance();
+
+	function update() {
+		var _x = Number($("#ipt6_x").val());
+		var _y = Number($("#ipt6_y").val());
+		if(!isNaN(_x) && !isNaN(_y)) {
+			ele.scale(_x, _y);
+		}
+	}
+	$("#ipt6_x, #ipt6_y").keyup(function() {
+		update();
+	});
+	update();
+});
+</script>
+
+<style>
+#cntr6 {
+	height: 100px;
+}
+#cntr6 text {
+	fill: #046;
+}
+
+#ipt6_x, #ipt6_y {
+	width: 100px;
+	display: inline-block;
+	padding: 3px 5px;
+}
+</style>
+
+
+
+
+
+<!----- Transform Rotate ----->
+<h3>.rotate(angle[, px, py])</h3>
+<p>Change svg rotation.</p>
+
+<pre class="js">
+ele.rotate(3, 1.5);
+</pre>
+
+<div class="bs-example">
+	<div class="content">
+		<svg id="cntr7" version="1.1" xmlns="http://www.w3.org/2000/svg">
+			<g>
+				<text>Hello FlexJS</text>
+			</g>
+		</svg>
+		rotate: <input id="ipt7" type="text" class="form-control" value="30" />
+	</div>
+</div>
+
+<script>
+$(document).ready(function() {
+	var ele = flexjs(document.getElementById("cntr7").querySelector("g")).asInstance();
+	ele.move(20, 10);
+
+	function update() {
+		var _s = Number($("#ipt7").val());
+		if(!isNaN(_s)) {
+			ele.rotate(_s);
+		}
+	}
+	$("#ipt7").keyup(function() {
+		update();
+	});
+	update();
+});
+</script>
+
+<style>
+#cntr7 {
+	height: 100px;
+}
+#cntr7 text {
+	fill: #046;
+}
+
+#ipt7 {
+	width: 100px;
+	display: inline-block;
+	padding: 3px 5px;
+}
+</style>
+
+
+
+<!----- Transform Skew ----->
+<h3>.skew(sx[, sy])</h3>
+<p>Change svg skew.</p>
+
+<pre class="js">
+ele.skew(5, 7);
+</pre>
+
+<div class="bs-example">
+	<div class="content">
+		<svg id="cntr8" version="1.1" xmlns="http://www.w3.org/2000/svg">
+			<g>
+				<text>Hello FlexJS</text>
+			</g>
+		</svg>
+		scaleX: <input id="ipt8_x" type="text" class="form-control" value="5" />
+		scaleY: <input id="ipt8_y" type="text" class="form-control" value="7" />
+	</div>
+</div>
+
+<script>
+$(document).ready(function() {
+	var ele = flexjs(document.getElementById("cntr8").querySelector("g")).asInstance();
+
+	function update() {
+		var _x = Number($("#ipt8_x").val());
+		var _y = Number($("#ipt8_y").val());
+		if(!isNaN(_x) && !isNaN(_y)) {
+			ele.skew(_x, _y);
+		}
+	}
+	$("#ipt8_x, #ipt8_y").keyup(function() {
+		update();
+	});
+	update();
+});
+</script>
+
+<style>
+#cntr8 {
+	height: 100px;
+}
+#cntr8 text {
+	fill: #046;
+}
+
+#ipt8_x, #ipt8_y {
+	width: 100px;
+	display: inline-block;
+	padding: 3px 5px;
+}
+</style>
+
+
+
+<!----- Transform Matrix ----->
+<h3>.matrix(a, b, c, d, e, f)</h3>
+<p>Change svg through matrix.</p>
+
+<pre class="js">
+ele.matrix(1, 2, 3, 4, 5, 6);
+</pre>
+
+
+
+<div style="height: 1000px;"></div>

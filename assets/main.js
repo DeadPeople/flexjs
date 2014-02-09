@@ -6,6 +6,7 @@ $(document).ready(function(){
 	loadPage("gettingStarted", "Getting Started");
 	loadPage("asTemplate", "As Template");
 	loadPage("bindData", "Bind Data");
+	loadPage("transform", "Transform");
 
 	// bind width of left nav bar
 	$(window).resize(function() {
@@ -51,7 +52,7 @@ $(document).ready(function(){
 			.add($div.find("h3")).each(function() {
 				var _my = $(this);
 				var _title =  $(this).text();
-				var _id = $(this).attr("id") != null ? $(this).attr("id") : page + "_" + _title.replace(/[ '\?]/g, "");
+				var _id = $(this).attr("id") != null ? $(this).attr("id") : page + "_" + _title.replace(/[\.\, '\?\[\]\(\)]/g, "");
 				$(this).attr("id", _id);
 
 				var $li = $("<li>");

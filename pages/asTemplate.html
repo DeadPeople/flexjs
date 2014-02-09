@@ -35,7 +35,7 @@ var ele = tmpl.getInstance();
 var cntr = document.getElementById("cntr");
 cntr.appendChild(ele);
 </pre>
-<div>
+</div>
 
 
 <div class="bs-example">
@@ -85,33 +85,9 @@ $(document).ready(function() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<h3>Use Instance Directly</h3>
+<p>You can also set template as instance directly by calling <code>asInstance</code>.</p>
+<pre class="js">
+var svg = document.getElementById("tmpl");
+var ele = tmpl.asInstance();
+</pre>
