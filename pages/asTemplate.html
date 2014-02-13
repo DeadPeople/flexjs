@@ -43,7 +43,7 @@ cntr.appendChild(ele);
 		<h4>Template:</h4>
 		<svg version="1.1" xmlns="http://www.w3.org/2000/svg">
 			<g id="tmpl1">
-				<text>Hello FlexJS</text>
+				<text y="15">Hello FlexJS</text>
 			</g>
 		</svg>
 		<button id="btn1" class="btn btn-primary">Generate</button>
@@ -66,7 +66,10 @@ svg text {
 	fill: black;
 	font-family: tempus sans itc;
 	font-weight: bolder;
-	alignment-baseline: before-edge ;
+}
+
+.bs-example svg {
+	display: block;
 }
 </style>
 
