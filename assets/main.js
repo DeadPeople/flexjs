@@ -7,6 +7,7 @@ $(document).ready(function(){
 	loadPage("asTemplate", "As Template");
 	loadPage("bindData", "Bind Data");
 	loadPage("transform", "Transform");
+	loadPage("auxiliary", "Auxiliary");
 
 	// bind width of left nav bar
 	$(window).resize(function() {

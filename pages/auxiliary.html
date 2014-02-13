@@ -1,0 +1,59 @@
+<h1>Auxiliary</h1>
+<p class="lead">FlexJS provide some auxiliary function to fast your svg opertaion.</p>
+
+
+<!----- Add / Remove Class ----->
+<h3>.addClass(className)</h3>
+<p>Add an <code>class</code> in to element.</p>
+
+<h3>.removeClass(className)</h3>
+<p>Remove an <code>class</code> of the element.</p>
+
+<!----- Add / Remove Transform ----->
+<h3>.addTrans(key, value)</h3>
+<p>Add tansform attribute in to element.</p>
+
+<pre class="js">
+ele.addTrans("translate", "5, 10");
+// Same as:
+ele.addTrans("translate", [5, 10]);
+</pre>
+
+<h3>.removeTrans(key)</h3>
+<p>Remove tansform attribute of the element.</p>
+
+<pre class="js">
+ele.removeTrans("translate");
+</pre>
+
+<!----- Get / Set Transform ----->
+<h3>.trans(args)</h3>
+<p>Get / Set tansform attributes in to element. args as <code>empty</code> will not set. Return transform as object.</p>
+
+<!----- Get / Set Attribute ----->
+<h3>.attr(key[, value])</h3>
+<p>Get / Set attribute in to element. args as <code>empty</code> will not set. Return attribute value.</p>
+
+<pre class="js">
+ele.attr("fill", "#FFF");
+</pre>
+
+<!----- Find Sub-element ----->
+<h3>.find(filter)</h3>
+<p>Find sub-elements of the element as <code>Array</code>.</p>
+
+<pre class="js">
+ele.find("g > text");
+</pre>
+
+<!----- Update Element ----->
+<h3>.update()</h3>
+<p>Update element by bind data.</p>
+
+<!----- Get / Set Object ----->
+<h3>.object(args)</h3>
+<p>Get / Set bind object to the element. args as <code>empty</code> will not set. Return binded object.</p>
+
+<!----- Get / Set Object Attribute ----->
+<h3>.object(key[, value])</h3>
+<p>Get / Set bind object attribute to the element. args as <code>empty</code> will not set. Return binded object attribute.</p>
